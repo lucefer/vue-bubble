@@ -185,7 +185,8 @@
                         e2x,
                         e2y
 
-
+                        control.x = 150
+                        control.y = 150
 
 
                     rootSvgC2.style.opacity = 1
