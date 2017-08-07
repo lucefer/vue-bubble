@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './bubble.vue'
-var vueBubble = require('../src/index.js')
+const vueBubble = require('../src/index.js')
 
 
 Vue.use(vueBubble)

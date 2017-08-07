@@ -17,7 +17,6 @@
 
 <script>
   export default {
-    name: 'bubble',
     data() {
       return {
         list: [
@@ -46,7 +45,6 @@
         ]
       }
     },
-
     methods:{
       hide(data) {
         console.log("data",data)
@@ -58,6 +56,9 @@
 </script>
 
 <style>
+*{
+  box-sizing: border-box;
+}
 html,body{
   margin:0;
   padding:0;
@@ -65,11 +66,12 @@ html,body{
 }
 .page-bubble{
   padding: 15px;
-  width: 375px;
+  max-width: 440px;
+  width: 100%;
   margin: 0 auto;
   font-family:Helvetica Neue,Microsoft Yahei,sans-serif;
   background: #000;
-  box-shadow: 0 0 10px #000
+  box-shadow: 0 0 3px #000
 }
 h6{
   color: #FFF;

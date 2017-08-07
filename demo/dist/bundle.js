@@ -70,13 +70,16 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 ;
 (function () {
-    let vueBubble = {};
+    var vueBubble = {};
+
     vueBubble.install = function (Vue) {
         Vue.directive('bubble', {
             isFn: true,
-            bind: function (el, binding) {
+            bind: function bind(el, binding) {
                 if (!binding.value) {
                     return;
                 }
@@ -95,14 +98,13 @@
                 }
                 el.textContent = binding.value.value;
             },
-            update: function (el, binding) {
+            update: function update(el, binding) {
                 if (!binding.value) {
                     return;
                 }
                 if (binding.value.show) {
                     el.style.opacity = 1;
                 } else {
-                    console.log(binding.value.show);
                     if (binding.value.show == undefined) {
                         if (binding.value.value == "0") {
                             el.style.opacity = 0;
@@ -115,14 +117,11 @@
                 }
                 el.textContent = binding.value.value;
             },
-            inserted: function (el, binding) {
-                let rootSvg = document.querySelector("#rootSvg");
+            inserted: function inserted(el, binding) {
+                var rootSvg = document.querySelector("#rootSvg");
                 if (!rootSvg) {
-                    let str = `<svg id="rootSvg" width="300px" height="300px" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                                  <circle id="rootSvgC1" cx="150" cy="150" r="8" stroke="black" stroke-width="0" fill="red"/>
-                                  <path id = "rootSvgPath" d="M 10 60 L10 40 Q  50 50,  10 40 L10 60 Q  50 50,  10 60 Z" stroke="" fill="rgb(255,0,0)"/>
-                                  <circle id="rootSvgC2" cx="150" cy="150" r="10"  stroke="red" stroke-width="0" fill="red"></circle></svg>`;
-                    n = document.createElement("div");
+                    var str = "<svg id=\"rootSvg\" width=\"300px\" height=\"300px\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n                                  <circle id=\"rootSvgC1\" cx=\"150\" cy=\"150\" r=\"8\" stroke=\"black\" stroke-width=\"0\" fill=\"red\"/>\n                                  <path id = \"rootSvgPath\" d=\"M 10 60 L10 40 Q  50 50,  10 40 L10 60 Q  50 50,  10 60 Z\" stroke=\"\" fill=\"rgb(255,0,0)\"/>\n                                  <circle id=\"rootSvgC2\" cx=\"150\" cy=\"150\" r=\"10\"  stroke=\"red\" stroke-width=\"0\" fill=\"red\"></circle></svg>",
+                        n = document.createElement("div");
                     n.innerHTML = str;
                     n.id = "tmpSvg";
                     n.setAttribute("width", "300px");
@@ -134,13 +133,13 @@
                     n = null;
                 }
 
-                let msg = el,
+                var msg = el,
                     offsetX = msg.offsetLeft,
                     offsetY = msg.offsetTop,
                     width = el.offsetWidth,
                     height = el.offsetHeight,
                     color = getComputedStyle(msg, null)["background-color"];
-                let radius = width > height ? Math.ceil(height / 2) : Math.ceil(width / 2),
+                var radius = width > height ? Math.ceil(height / 2) : Math.ceil(width / 2),
                     line = {
                     direction: 'x',
                     offset: 0
@@ -156,7 +155,7 @@
                     line.direction = 'none';
                     line.offset = 0;
                 }
-                let offset = 150 - radius,
+                var offset = 150 - radius,
                     startX = 150,
                     startY = 150,
                     minradius = 5,
@@ -166,16 +165,16 @@
                 rootSvgC2.setAttribute("r", radius);
                 rootSvgC1.setAttribute("r", smallCircle);
 
-                let isMobile = "ontouchstart" in window;
+                var isMobile = "ontouchstart" in window;
                 if (isMobile) {
                     msg.addEventListener("touchstart", mousedown);
                 } else {
                     msg.addEventListener("mousedown", mousedown);
                 }
 
-                let left = 0,
+                var left = 0,
                     top = 0,
-                    tmpMsg,
+                    tmpMsg = void 0,
                     distance = 0,
                     moveOffsetX = 0,
                     moveOffsetY = 0,
@@ -197,7 +196,7 @@
                     deltaY = 0,
                     sinAngel = 0,
                     cosAngel = 0,
-                    timer,
+                    timer = void 0,
                     maxDistance = radius * 7 > 200 ? 200 : radius * 7;
 
                 function contextmenu(e) {
@@ -248,13 +247,13 @@
                     }
                     e = isMobile ? e.changedTouches[0] : e;
 
-                    let x = e.pageX,
+                    var x = e.pageX,
                         y = e.pageY,
                         cx = x,
                         cy = y,
                         currR = radius,
-                        e2x,
-                        e2y;
+                        e2x = void 0,
+                        e2y = void 0;
 
                     rootSvgC2.style.opacity = 1;
 
@@ -288,8 +287,7 @@
                             rootSvgPath.style.opacity = 1;
                             rootSvgC1.style.opacity = 1;
                         }
-                        console.log(rootSvgPath);
-                        console.log("M  " + point.p4x + " " + point.p4y + " L " + point.p1x + " " + point.p1y + " Q  " + control.x + " " + control.y + ",  " + point.p2x + " " + point.p2y + " L" + point.p3x + " " + point.p3y + " Q  " + control.x + " " + control.y + ",  " + point.p4x + " " + point.p4y + " Z");
+
                         rootSvgPath.setAttribute("d", "M  " + point.p4x + " " + point.p4y + " L " + point.p1x + " " + point.p1y + " Q  " + control.x + " " + control.y + ",  " + point.p2x + " " + point.p2y + " L" + point.p3x + " " + point.p3y + " Q  " + control.x + " " + control.y + ",  " + point.p4x + " " + point.p4y + " Z");
 
                         rootSvgC1.setAttribute("r", currR);
@@ -334,7 +332,7 @@
                         cy = e.pageY;
                         endPointX = startX + cx - x;
                         endPointY = startY + cy - y;
-                        let currentDistance = getDistance(startX, startY, endPointX, endPointY);
+                        var currentDistance = getDistance(startX, startY, endPointX, endPointY);
 
                         if (currentDistance < maxDistance) {
                             rootSvgC1.setAttribute("r", radius);
@@ -360,13 +358,13 @@
                     }
 
                     function animation(sx, sy, ex, ey) {
-                        let count = 1;
-                        let minDeltaX = ex - sx;
-                        let minDeltaY = ey - sy;
+                        var count = 1;
+                        var minDeltaX = ex - sx;
+                        var minDeltaY = ey - sy;
                         timer = setInterval(function a() {
                             count = (Math.abs(count) % 2 == 0 ? -1 : 1) * count;
-                            let currX = sx + minDeltaX / (count * 2);
-                            let currY = sy + minDeltaY / (count * 2);
+                            var currX = sx + minDeltaX / (count * 2);
+                            var currY = sy + minDeltaY / (count * 2);
                             if (Math.abs(count) == 5) {
                                 clearInterval(timer);
                                 timer = null;
@@ -395,12 +393,13 @@
         });
     };
 
-    if (true) {
+    if (( false ? "undefined" : _typeof(exports)) == "object") {
         module.exports = vueBubble;
-    } else if (typeof define == "function" && define.amd) {
-        define([], function () {
+    } else if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
             return vueBubble;
-        });
+        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
     } else if (window.Vue) {
         window.vueBubble = vueBubble;
         Vue.use(vueBubble);
@@ -411,9 +410,7 @@
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(5)
 }
 var Component = __webpack_require__(8)(
@@ -428,25 +425,6 @@ var Component = __webpack_require__(8)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/fanqi/Documents/mine/lucefer/vue-bubble/demo/bubble.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] bubble.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0ff1b42c", Component.options)
-  } else {
-    hotAPI.reload("data-v-0ff1b42c", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -7901,9 +7879,11 @@ var vueBubble = __webpack_require__(0);
 
 __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(vueBubble);
 
-new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({ // eslint-disable-line
+new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
   el: '#app',
-  render: h => h(__WEBPACK_IMPORTED_MODULE_1__bubble_vue___default.a)
+  render: function render(h) {
+    return h(__WEBPACK_IMPORTED_MODULE_1__bubble_vue___default.a);
+  }
 });
 
 /***/ }),
@@ -7912,27 +7892,10 @@ new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({ // eslint-disable-lin
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'bubble',
-  data() {
+  data: function data() {
     return {
       list: [{
         count: 10,
@@ -7957,7 +7920,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   methods: {
-    hide(data) {
+    hide: function hide(data) {
       console.log("data", data);
       data['count'] = 0;
       data['show'] = false;
@@ -8305,13 +8268,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "content"
   }, [_c('em', [_vm._v("小黄")]), _vm._v(" "), _c('span', [_vm._v("vue升级2.0后，自定义指令部分的API全部变化了！你怎么看？")])])
 }]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-0ff1b42c", module.exports)
-  }
-}
 
 /***/ }),
 /* 10 */

@@ -1,6 +1,8 @@
 ;
 (function() {
     let vueBubble = {}
+
+
     vueBubble.install = function(Vue) {
         Vue.directive('bubble', {
             isFn: true,
@@ -30,7 +32,6 @@
                 if (binding.value.show) {
                     el.style.opacity = 1
                 } else {
-                    console.log(binding.value.show)
                     if (binding.value.show == undefined) {
                         if (binding.value.value == "0") {
                             el.style.opacity = 0
@@ -51,7 +52,7 @@
                     let str = `<svg id="rootSvg" width="300px" height="300px" version="1.1" xmlns="http://www.w3.org/2000/svg">
                                   <circle id="rootSvgC1" cx="150" cy="150" r="8" stroke="black" stroke-width="0" fill="red"/>
                                   <path id = "rootSvgPath" d="M 10 60 L10 40 Q  50 50,  10 40 L10 60 Q  50 50,  10 60 Z" stroke="" fill="rgb(255,0,0)"/>
-                                  <circle id="rootSvgC2" cx="150" cy="150" r="10"  stroke="red" stroke-width="0" fill="red"></circle></svg>`
+                                  <circle id="rootSvgC2" cx="150" cy="150" r="10"  stroke="red" stroke-width="0" fill="red"></circle></svg>`,
                     n = document.createElement("div")
                     n.innerHTML = str
                     n.id = "tmpSvg"
@@ -220,10 +221,7 @@
                             rootSvgPath.style.opacity = 1
                             rootSvgC1.style.opacity = 1
                         }
-                        console.log(rootSvgPath)
-                        console.log("M  " + point.p4x + " " + point.p4y + " L " + point.p1x + " " + point.p1y + " Q  " + control.x + " " + control.y + ",  " + point.p2x + " " + point.p2y + " L" + point.p3x + " " + point.p3y + " Q  " + control.x +
-                            " " + control.y +
-                            ",  " + point.p4x + " " + point.p4y + " Z")
+
                         rootSvgPath.setAttribute("d", "M  " + point.p4x + " " + point.p4y + " L " + point.p1x + " " + point.p1y + " Q  " + control.x + " " + control.y + ",  " + point.p2x + " " + point.p2y + " L" + point.p3x + " " + point.p3y + " Q  " + control.x +
                             " " + control.y +
                             ",  " + point.p4x + " " + point.p4y + " Z")
@@ -339,6 +337,7 @@
         })
     }
 
+
     if (typeof exports == "object") {
         module.exports = vueBubble
     } else if (typeof define == "function" && define.amd) {
@@ -347,5 +346,6 @@
         window.vueBubble = vueBubble
         Vue.use(vueBubble)
     }
+
 
 })()
