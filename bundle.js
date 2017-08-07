@@ -7959,7 +7959,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     hide(data) {
       console.log("data", data);
       data['count'] = 0;
-      data['show'] = true;
+      data['show'] = false;
     }
   }
 });
