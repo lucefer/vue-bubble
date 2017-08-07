@@ -2,7 +2,7 @@
 基于vue实现的仿QQ消息气泡拖拽插件。
 #### 效果图
 
-![](http://ifanqi.me/vue-bubble/assets/images/qipao.gif)
+![](http://ifanqi.me/img/vue-bubble/qipao.gif)
 
 #### 安装 && install
 ```
