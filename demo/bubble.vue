@@ -50,7 +50,7 @@
       hide(data) {
         console.log("data",data)
         data['count'] = 0
-        data['show'] = true
+        data['show'] = false
       }
     }
   }
@@ -82,7 +82,8 @@ i.msg{
   width: 375px;
   margin: 0 auto;
   font-family:Helvetica Neue,Microsoft Yahei,sans-serif;
-  background: #000
+  background: #000;
+  box-shadow: 0 0 10px #000
 }
 .page-bubble >div{
   overflow: hidden;

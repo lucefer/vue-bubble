@@ -23,7 +23,8 @@ i.msg{
   width: 375px;
   margin: 0 auto;
   font-family:Helvetica Neue,Microsoft Yahei,sans-serif;
-  background: #000
+  background: #000;
+  box-shadow: 0 0 10px #000
 }
 .page-bubble >div{
   overflow: hidden;
