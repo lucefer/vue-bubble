@@ -1,5 +1,8 @@
 ## 消息气泡拖拽插件 && a plugin based vuejs which can let message dom like bubble to drag into disappeared
 基于vue实现的仿QQ消息气泡拖拽插件。
+#### 效果图
+![](http://ifanqi.me/vue-bubble/images/qipao.gif)
+
 #### 安装 && install
 ```
 npm install vue-bubble

@@ -61,7 +61,31 @@
 html,body{
   margin:0;
   padding:0;
+  background: #EEE
 }
+.page-bubble{
+  padding: 15px;
+  width: 375px;
+  margin: 0 auto;
+  font-family:Helvetica Neue,Microsoft Yahei,sans-serif;
+  background: #000;
+  box-shadow: 0 0 10px #000
+}
+h6{
+  color: #FFF;
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.page-bubble >div{
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #EEE;
+  padding:15px 15px 30px;
+}
+
 i.msg{
   float: right;
   display: inline-block;
@@ -82,22 +106,7 @@ i.msg{
   -ms-user-select: none;
   user-select: none;
 }
-.page-bubble{
-  padding: 15px;
-  width: 375px;
-  margin: 0 auto;
-  font-family:Helvetica Neue,Microsoft Yahei,sans-serif;
-  background: #000;
-  box-shadow: 0 0 10px #000
-}
-.page-bubble >div{
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  border-bottom: 1px solid #EEE;
-  padding:15px 15px 30px;
-}
+
 .photo {
   width: 60px;
   height: 60px;
@@ -108,12 +117,7 @@ i.msg{
   width: 60px;
   height: 60px;
 }
-h6{
-  color: #FFF;
-  text-align: center;
-  font-size: 20px;
-  margin-bottom: 10px;
-}
+
 .content{
   margin-left: 15px;
   flex:1;
@@ -122,6 +126,4 @@ h6{
 .content span,.content em{
   font-style:normal;display: block;margin-top: 10px
 }
-
-
 </style>

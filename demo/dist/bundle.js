@@ -210,7 +210,8 @@
                     }
                     msg.addEventListener('contextmenu', contextmenu);
                     window.addEventListener('touchstart', contextmenu);
-                    rootSvgPath.setAttribute("d", "M 150 150 L150 150 Q  150 150,  150 150 L150 150 Q  150 150,  150 150 Z");
+                    rootSvgPath.setAttribute("d", "M 150 150 L 150 150 Q 150 150, 150 150 L150 150 Q 150 150,  150 150 Z");
+
                     offsetX = msg.offsetLeft;
                     offsetY = msg.offsetTop;
 
@@ -265,7 +266,6 @@
                         moveOffsetY = cy - y;
                         distance = Math.sqrt(Math.pow(moveOffsetX, 2) + Math.pow(moveOffsetY, 2));
 
-                        rootSvgPath.style.opacity = 1;
                         currR = Math.round(smallCircle - distance / 20);
 
                         if (currR < minradius) {
@@ -286,6 +286,7 @@
                             rootSvgPath.style.opacity = 1;
                             rootSvgC1.style.opacity = 1;
                         }
+                        console.log(rootSvgPath);
                         console.log("M  " + point.p4x + " " + point.p4y + " L " + point.p1x + " " + point.p1y + " Q  " + control.x + " " + control.y + ",  " + point.p2x + " " + point.p2y + " L" + point.p3x + " " + point.p3y + " Q  " + control.x + " " + control.y + ",  " + point.p4x + " " + point.p4y + " Z");
                         rootSvgPath.setAttribute("d", "M  " + point.p4x + " " + point.p4y + " L " + point.p1x + " " + point.p1y + " Q  " + control.x + " " + control.y + ",  " + point.p2x + " " + point.p2y + " L" + point.p3x + " " + point.p3y + " Q  " + control.x + " " + control.y + ",  " + point.p4x + " " + point.p4y + " Z");
 
