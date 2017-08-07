@@ -57,6 +57,10 @@
 </script>
 
 <style>
+html,body{
+  margin:0;
+  padding:0;
+}
 i.msg{
   float: right;
   display: inline-block;
