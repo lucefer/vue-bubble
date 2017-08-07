@@ -259,6 +259,8 @@
                     rootSvgC2.style.opacity = 1;
 
                     function mousemove(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
                         e = isMobile ? e.changedTouches[0] : e;
                         cx = e.pageX;
                         cy = e.pageY;
@@ -368,9 +370,7 @@
                             if (Math.abs(count) == 5) {
                                 clearInterval(timer);
                                 timer = null;
-                            }
-                            let dd = Math.sqrt(currX * currX + currY * currY);
-                            if (Math.abs(count) == 5) {
+
                                 msg.style.cssText = "";
                                 tmpMsg.style.display = "none";
 
