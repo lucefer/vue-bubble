@@ -74,7 +74,6 @@
 (function () {
     let vueBubble = {};
     vueBubble.install = function (Vue) {
-
         Vue.directive('bubble', {
             isFn: true,
             bind: function (el, binding) {
@@ -206,9 +205,12 @@
                 }
 
                 function mousedown(e) {
+                    if (timer) {
+                        return;
+                    }
                     msg.addEventListener('contextmenu', contextmenu);
                     window.addEventListener('touchstart', contextmenu);
-                    rootSvgPath.setAttribute("d", "M 150 150 L150 10 Q  150 150,  150 150 L150 150 Q  150 150,  150 150 Z");
+                    rootSvgPath.setAttribute("d", "M 150 150 L150 150 Q  150 150,  150 150 L150 150 Q  150 150,  150 150 Z");
                     offsetX = msg.offsetLeft;
                     offsetY = msg.offsetTop;
 
@@ -233,9 +235,6 @@
                         el.parentNode.appendChild(rootSvg);
                     }
 
-                    if (timer) {
-                        return;
-                    }
                     if (isMobile) {
                         document.addEventListener("touchmove", mousemove);
                         document.addEventListener("touchend", mouseup);
@@ -337,7 +336,7 @@
                         if (currentDistance < maxDistance) {
                             rootSvgC1.setAttribute("r", radius);
                             rootSvgPath.style.opacity = 0;
-                            rootSvgPath.setAttribute("d", "M 150 150 L150 10 Q  150 150,  150 150 L150 150 Q  150 150,  150 150 Z");
+                            rootSvgPath.setAttribute("d", "M 150 150 L150 150 Q  150 150,  150 150 L150 150 Q  150 150,  150 150 Z");
                             rootSvgC1.style.opacity = 0;
                             animation(startX, startY, startX + cx - x, startY + cy - y);
                         } else {
@@ -353,7 +352,7 @@
 
                             tmpMsg.style.display = "none";
                             rootSvg.style.display = "none";
-                            rootSvgPath.setAttribute("d", "M 150 150 L150 10 Q  150 150,  150 150 L150 150 Q  150 150,  150 150 Z");
+                            rootSvgPath.setAttribute("d", "M 150 150 L150 150 Q  150 150,  150 150 L150 150 Q  150 150,  150 150 Z");
                         }
                     }
 
@@ -7928,6 +7927,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'bubble',
@@ -8270,7 +8270,7 @@ module.exports = function normalizeComponent (
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "page-bubble"
-  }, _vm._l((_vm.list), function(item) {
+  }, [_c('h6', [_vm._v("仿QQ气泡拖拽演示")]), _vm._v(" "), _vm._l((_vm.list), function(item) {
     return _c('div', {
       staticStyle: {
         "color": "#FFF",
@@ -8290,7 +8290,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }],
       staticClass: "msg"
     })])
-  }))
+  })], 2)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('span', {
     staticClass: "photo"

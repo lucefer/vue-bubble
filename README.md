@@ -1,16 +1,16 @@
-## 消息气泡拖拽组件
+## 消息气泡拖拽插件 && a plugin based vuejs which can let message dom like bubble to drag into disappeared
 基于vue实现的仿QQ消息气泡拖拽插件。
-#### 安装
+#### 安装 && install
 ```
 npm install vue-bubble
 ```
-#### 使用
-1. 入口vue引入
+#### 如何使用 && Usage
+1. 引入
 ```
 const vueBubble from 'vue-bubble'
 Vue.use(vueBubble)
 ```
-2. 组件中使用
+2. 使用
 v-bubble指令对应的是一个对象。该对象有如下可选值：
 * value
 > 必选，消息气泡显示的值。

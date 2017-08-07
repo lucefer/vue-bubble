@@ -52,6 +52,12 @@ i.msg{
   width: 60px;
   height: 60px;
 }
+h6{
+  color: #FFF;
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
 .content{
   margin-left: 15px;
   -webkit-box-flex:1;

@@ -2,7 +2,6 @@
 (function() {
     let vueBubble = {}
     vueBubble.install = function(Vue) {
-
         Vue.directive('bubble', {
             isFn: true,
             bind: function(el, binding) {
@@ -89,7 +88,7 @@
                 }
                 let offset = 150 - radius, startX = 150, startY = 150, minradius = 5, smallCircle = Math.round(radius * 0.6)
                 rootSvg.style.cssText = "position:absolute;left:" + (offsetX - offset) + "px;top:" + (offsetY - offset) + "px;display:none"
-        
+
                 rootSvgC2.setAttribute("r", radius)
                 rootSvgC1.setAttribute("r", smallCircle)
 
@@ -131,9 +130,12 @@
                 }
 
                 function mousedown(e) {
+                   if (timer) {
+                      return
+                   }
                     msg.addEventListener('contextmenu', contextmenu)
                     window.addEventListener('touchstart', contextmenu)
-                    rootSvgPath.setAttribute("d", "M 150 150 L150 10 Q  150 150,  150 150 L150 150 Q  150 150,  150 150 Z")
+                    rootSvgPath.setAttribute("d", "M 150 150 L150 150 Q  150 150,  150 150 L150 150 Q  150 150,  150 150 Z")
                     offsetX = msg.offsetLeft
                     offsetY = msg.offsetTop
 
@@ -160,9 +162,7 @@
                         el.parentNode.appendChild(rootSvg)
                     }
 
-                    if (timer) {
-                        return
-                    }
+
                     if (isMobile) {
                         document.addEventListener("touchmove", mousemove)
                         document.addEventListener("touchend", mouseup)
@@ -277,7 +277,7 @@
                         if (currentDistance < maxDistance) {
                             rootSvgC1.setAttribute("r", radius)
                             rootSvgPath.style.opacity = 0
-                            rootSvgPath.setAttribute("d", "M 150 150 L150 10 Q  150 150,  150 150 L150 150 Q  150 150,  150 150 Z")
+                            rootSvgPath.setAttribute("d", "M 150 150 L150 150 Q  150 150,  150 150 L150 150 Q  150 150,  150 150 Z")
                             rootSvgC1.style.opacity = 0
                             animation(startX, startY, startX + cx - x, startY + cy - y)
                         } else {
@@ -290,14 +290,14 @@
                             }else{
                                 msg.style.cssText = "opacity:0"
                             }
-                            
+
                             tmpMsg.style.display = "none"
                             rootSvg.style.display = "none"
-                            rootSvgPath.setAttribute("d", "M 150 150 L150 10 Q  150 150,  150 150 L150 150 Q  150 150,  150 150 Z")
+                            rootSvgPath.setAttribute("d", "M 150 150 L150 150 Q  150 150,  150 150 L150 150 Q  150 150,  150 150 Z")
                         }
                     }
 
-                    
+
 
                     function animation(sx, sy, ex, ey) {
                         let count = 1
@@ -317,7 +317,7 @@
                                 tmpMsg.style.display = "none"
 
                                 clearInterval(timer)
-                                
+
                                 rootSvgC2.setAttribute("cx", startX)
                                 rootSvgC1.setAttribute("r", radius)
                                 rootSvgC2.setAttribute("cy", startY)
@@ -328,7 +328,6 @@
                                 rootSvgC2.setAttribute("cx", currX)
                                 rootSvgC2.setAttribute("cy", currY)
                                 msg.style.transform = "translate(" + (currX - sx) + "px," + (currY - sy) + "px)"
-                                
                             }
                             count = Math.abs(count) + 1
                         }, 40)

@@ -1,5 +1,6 @@
 <template>
   <div class="page-bubble">
+    <h6>仿QQ气泡拖拽演示</h6>
     <div style = "color:#FFF;font-size:14px;background-color:#000;" v-for="item in list">
       <span class="photo">
         <img src= "./images/photo.jpg" />
@@ -106,6 +107,12 @@ i.msg{
 .photo img{
   width: 60px;
   height: 60px;
+}
+h6{
+  color: #FFF;
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 .content{
   margin-left: 15px;
