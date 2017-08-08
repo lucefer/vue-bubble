@@ -11,7 +11,7 @@
       </div>
       <i v-bubble="{show:item.show,afterHide: (hide.bind(this,item)),value : item.count}" class="msg"></i>
     </div>
-    <!--<button @click="change()">更新</button>-->
+    <button @click="change()">重置数据</button>
   </div>
 </template>
 
@@ -47,9 +47,34 @@
     },
     methods:{
       hide(data) {
-        console.log("data",data)
         data['count'] = 0
         data['show'] = false
+      },
+      change(){
+        this.list = [
+          {
+            count: 10,
+            show: true
+          },
+          {
+            count: 6,
+            show:true
+          },{
+            count:0,
+            show:false
+          },
+          {
+            count: 10,
+            show: true
+          },
+          {
+            count: 6,
+            show:true
+          },{
+            count:0,
+            show:false
+          }
+        ]
       }
     }
   }
@@ -127,5 +152,15 @@ i.msg{
 }
 .content span,.content em{
   font-style:normal;display: block;margin-top: 10px
+}
+button {
+  margin-top:20px;
+  font-size: 20px;
+  width:100%;height: 60px;line-height: 60px;
+  border-radius:5px;
+  color:#FFF;
+  border: 0;
+  appearance: none;
+  background-color:#C60A1E;
 }
 </style>

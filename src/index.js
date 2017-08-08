@@ -2,14 +2,24 @@
 (function() {
     let vueBubble = {}
 
-
+    function Data(binding) {
+        this.value = binding.value
+        this.afterHide = binding.afterHide
+        this.show = binding.show
+    }
+    Data.prototype.update = function(binding) {
+        this.value = binding.value
+        this.afterHide = binding.afterHide
+        this.show = binding.show
+    }
     vueBubble.install = function(Vue) {
         Vue.directive('bubble', {
             isFn: true,
             bind: function(el, binding) {
-              if(!binding.value){
-                return
-              }
+                el.bubbleData = new Data(binding.value)
+                if (!binding.value) {
+                    return
+                }
                 if (binding.value.show) {
                     el.style.opacity = 1
                 } else {
@@ -26,9 +36,10 @@
                 el.textContent = binding.value.value
             },
             update: function(el, binding) {
-              if(!binding.value){
-                return
-              }
+                el.bubbleData.update(binding.value)
+                if (!binding.value) {
+                    return
+                }
                 if (binding.value.show) {
                     el.style.opacity = 1
                 } else {
@@ -46,6 +57,12 @@
 
 
             },
+            unbind: function(el) {
+              el.removeEventListener("touchstart", el.handler)
+              el.removeEventListener("mousedown", el.handler)
+              el.bubbleData = null
+              el.handler = null
+            },
             inserted: function(el, binding) {
                 let rootSvg = document.querySelector("#rootSvg")
                 if (!rootSvg) {
@@ -53,7 +70,7 @@
                                   <circle id="rootSvgC1" cx="150" cy="150" r="8" stroke="black" stroke-width="0" fill="red"/>
                                   <path id = "rootSvgPath" d="M 10 60 L10 40 Q  50 50,  10 40 L10 60 Q  50 50,  10 60 Z" stroke="" fill="rgb(255,0,0)"/>
                                   <circle id="rootSvgC2" cx="150" cy="150" r="10"  stroke="red" stroke-width="0" fill="red"></circle></svg>`,
-                    n = document.createElement("div")
+                        n = document.createElement("div")
                     n.innerHTML = str
                     n.id = "tmpSvg"
                     n.setAttribute("width", "300px")
@@ -73,8 +90,8 @@
                     color = getComputedStyle(msg, null)["background-color"]
                 let radius = width > height ? Math.ceil(height / 2) : Math.ceil(width / 2),
                     line = {
-                      direction: 'x',
-                      offset: 0
+                        direction: 'x',
+                        offset: 0
                     }
 
                 if (width > height) {
@@ -87,7 +104,11 @@
                     line.direction = 'none'
                     line.offset = 0
                 }
-                let offset = 150 - radius, startX = 150, startY = 150, minradius = 5, smallCircle = Math.round(radius * 0.6)
+                let offset = 150 - radius,
+                    startX = 150,
+                    startY = 150,
+                    minradius = 5,
+                    smallCircle = Math.round(radius * 0.6)
                 rootSvg.style.cssText = "position:absolute;left:" + (offsetX - offset) + "px;top:" + (offsetY - offset) + "px;display:none"
 
                 rootSvgC2.setAttribute("r", radius)
@@ -129,19 +150,25 @@
                 function contextmenu(e) {
                     e.preventDefault();
                 }
-
+                el.handler = mousedown
                 function mousedown(e) {
-                   if (timer) {
-                      return
-                   }
+                    if (timer) {
+                        return
+                    }
+                    if (!el.bubbleData || !el.bubbleData.show) {
+                        return
+                    }
                     msg.addEventListener('contextmenu', contextmenu)
                     window.addEventListener('touchstart', contextmenu)
                     rootSvgPath.setAttribute("d", "M 150 150 L 150 150 Q 150 150, 150 150 L150 150 Q 150 150,  150 150 Z")
 
                     offsetX = msg.offsetLeft
                     offsetY = msg.offsetTop
+                    point.p1x = point.p2x = point.p3x = point.p4x = startX
+                    point.p1y = point.p2y = point.p3y = point.p4y = startY
 
-
+                    control.x = startX
+                    control.y = startY
                     rootSvg.style.cssText = "position:absolute;left:" + (offsetX - offset) + "px;top:" + (offsetY - offset) + "px;display:block;"
                     rootSvgC1.setAttribute("fill", color)
                     rootSvgPath.setAttribute("fill", color)
@@ -283,13 +310,13 @@
                             rootSvgC1.style.opacity = 0
                             animation(startX, startY, startX + cx - x, startY + cy - y)
                         } else {
-                            if (binding.value && typeof binding.value.afterHide === 'function') {
-                                binding.value.afterHide()
+                            if (el.bubbleData && typeof el.bubbleData.afterHide === 'function') {
+                                el.bubbleData.afterHide()
                             }
                             rootSvgC2.style.opacity = 0
-                            if(binding.value && binding.value.show){
+                            if (binding.value && binding.value.show) {
                                 msg.style.cssText = "opacity:1"
-                            }else{
+                            } else {
                                 msg.style.cssText = "opacity:0"
                             }
 
@@ -341,7 +368,9 @@
     if (typeof exports == "object") {
         module.exports = vueBubble
     } else if (typeof define == "function" && define.amd) {
-        define([], function() { return vueBubble })
+        define([], function() {
+            return vueBubble
+        })
     } else if (window.Vue) {
         window.vueBubble = vueBubble
         Vue.use(vueBubble)
