@@ -63,14 +63,14 @@
               el.bubbleData = null
               el.handler = null
             },
-            inserted: function(el, binding) {
+            inserted: function(el, binding, vnode) {
                 let rootSvg = document.querySelector("#rootSvg")
                 if (!rootSvg) {
                     let str = `<svg id="rootSvg" width="300px" height="300px" version="1.1" xmlns="http://www.w3.org/2000/svg">
                                   <circle id="rootSvgC1" cx="150" cy="150" r="8" stroke="black" stroke-width="0" fill="red"/>
                                   <path id = "rootSvgPath" d="M 10 60 L10 40 Q  50 50,  10 40 L10 60 Q  50 50,  10 60 Z" stroke="" fill="rgb(255,0,0)"/>
                                   <circle id="rootSvgC2" cx="150" cy="150" r="10"  stroke="red" stroke-width="0" fill="red"></circle></svg>`,
-                        n = document.createElement("div")
+                    n = document.createElement("div")
                     n.innerHTML = str
                     n.id = "tmpSvg"
                     n.setAttribute("width", "300px")
