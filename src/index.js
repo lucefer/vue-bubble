@@ -1,7 +1,19 @@
 ;
 (function() {
     let vueBubble = {}
-
+    let mPow = Math.pow, mAbs = Math.abs, mCeil = Math.ceil, mRound = Math.round
+    function setAttribute(dom, key, value){
+      dom.setAttribute(key, value)
+    }
+    function setStyle(dom, key, value){
+      dom.style[key] = value
+      if(key === 'transform'){
+        dom.style["webkitTransform"] = value
+      }
+    }
+    function resetSvgPosition(svg){
+      svg.setAttribute("d", "M 150 150 L 150 150 Q 150 150, 150 150 L150 150 Q 150 150,  150 150 Z")
+    }
     function Data(binding) {
         this.value = binding.value
         this.afterHide = binding.afterHide
@@ -12,6 +24,7 @@
         this.afterHide = binding.afterHide
         this.show = binding.show
     }
+
     vueBubble.install = function(Vue) {
         Vue.directive('bubble', {
             isFn: true,
@@ -73,8 +86,8 @@
                     n = document.createElement("div")
                     n.innerHTML = str
                     n.id = "tmpSvg"
-                    n.setAttribute("width", "300px")
-                    n.setAttribute("height", "300px")
+                    setAttribute(n, "width", "300px")
+                    setAttribute(n, "height", "300px")
                     document.body.appendChild(n)
                     el.parentNode.appendChild(n.children[0])
                     document.querySelector("#tmpSvg").remove()
@@ -88,7 +101,7 @@
                     width = el.offsetWidth,
                     height = el.offsetHeight,
                     color = getComputedStyle(msg, null)["background-color"]
-                let radius = width > height ? Math.ceil(height / 2) : Math.ceil(width / 2),
+                let radius = width > height ? mCeil(height / 2) : mCeil(width / 2),
                     line = {
                         direction: 'x',
                         offset: 0
@@ -108,11 +121,11 @@
                     startX = 150,
                     startY = 150,
                     minradius = 5,
-                    smallCircle = Math.round(radius * 0.6)
+                    smallCircle = mRound(radius * 0.6)
                 rootSvg.style.cssText = "position:absolute;left:" + (offsetX - offset) + "px;top:" + (offsetY - offset) + "px;display:none"
 
-                rootSvgC2.setAttribute("r", radius)
-                rootSvgC1.setAttribute("r", smallCircle)
+                setAttribute(rootSvgC1, "r", smallCircle)
+                setAttribute(rootSvgC2, "r", radius)
 
                 let isMobile = "ontouchstart" in window
                 if (isMobile) {
@@ -160,7 +173,8 @@
                     }
                     msg.addEventListener('contextmenu', contextmenu)
                     window.addEventListener('touchstart', contextmenu)
-                    rootSvgPath.setAttribute("d", "M 150 150 L 150 150 Q 150 150, 150 150 L150 150 Q 150 150,  150 150 Z")
+
+                    resetSvgPosition(rootSvgPath)
 
                     offsetX = msg.offsetLeft
                     offsetY = msg.offsetTop
@@ -170,13 +184,15 @@
                     control.x = startX
                     control.y = startY
                     rootSvg.style.cssText = "position:absolute;left:" + (offsetX - offset) + "px;top:" + (offsetY - offset) + "px;display:block;"
-                    rootSvgC1.setAttribute("fill", color)
-                    rootSvgPath.setAttribute("fill", color)
-                    rootSvgC2.setAttribute("fill", color)
-                    rootSvgC2.setAttribute("cx", startX)
-                    rootSvgC2.setAttribute("cy", startY)
+                    setAttribute(rootSvgC1, "fill", color)
+                    setAttribute(rootSvgPath, "fill", color)
+                    setAttribute(rootSvgC2, "fill", color)
+                    setAttribute(rootSvgC2, "cx", startX)
+                    setAttribute(rootSvgC2, "cy", startY)
+
                     left = msg.getBoundingClientRect().left
                     top = msg.getBoundingClientRect().top
+
                     msg.style.cssText = "position:fixed;top:" + top + "px;left:" + left + "px;z-index:2017"
                     if (!tmpMsg) {
                         tmpMsg = msg.cloneNode()
@@ -184,8 +200,7 @@
                         msg.parentNode.insertBefore(tmpMsg, msg)
                     }
 
-                    tmpMsg.style.cssText = "visibility:hidden"
-
+                    setStyle(tmpMsg, "cssText", "visibility:hidden")
 
                     if (rootSvg.parentNode !== el.parentNode) {
                         el.parentNode.appendChild(rootSvg)
@@ -217,6 +232,7 @@
 
 
                     rootSvgC2.style.opacity = 1
+                    setStyle(rootSvgC2, "opacity", 1)
 
                     function mousemove(e) {
                         e.preventDefault()
@@ -226,10 +242,10 @@
                         cy = e.pageY
                         moveOffsetX = cx - x
                         moveOffsetY = cy - y
-                        distance = Math.sqrt(Math.pow((moveOffsetX), 2) + Math.pow((moveOffsetY), 2))
+                        distance = Math.sqrt(mPow((moveOffsetX), 2) + mPow((moveOffsetY), 2))
 
 
-                        currR = Math.round(smallCircle - distance / 20)
+                        currR = mRound(smallCircle - distance / 20)
 
                         if (currR < minradius) {
                             currR = minradius
@@ -238,23 +254,25 @@
                         endPointX = startX + moveOffsetX
                         endPointY = startY + moveOffsetY
                         getPoint(startX, startY, endPointX, endPointY, currR, radius)
-                        rootSvgC2.setAttribute("cx", endPointX)
-                        rootSvgC2.setAttribute("cy", endPointY)
-                        msg.style.transform = "translate(" + moveOffsetX + "px," + moveOffsetY + "px)"
+                        setAttribute(rootSvgC2, "cx", endPointX)
+                        setAttribute(rootSvgC2, "cy", endPointY)
+
+                        setStyle(msg, "transform", "translate(" + moveOffsetX + "px," + moveOffsetY + "px)")
+
                         if (currentDistance > maxDistance) {
-                            rootSvgC1.style.opacity = 0
-                            rootSvgPath.style.opacity = 0
+                            setStyle(rootSvgC1, "opacity", 0)
+                            setStyle(rootSvgPath, "opacity", 0)
                             return
                         } else {
-                            rootSvgPath.style.opacity = 1
-                            rootSvgC1.style.opacity = 1
+                            setStyle(rootSvgC1, "opacity", 1)
+                            setStyle(rootSvgPath, "opacity", 1)
                         }
 
                         rootSvgPath.setAttribute("d", "M  " + point.p4x + " " + point.p4y + " L " + point.p1x + " " + point.p1y + " Q  " + control.x + " " + control.y + ",  " + point.p2x + " " + point.p2y + " L" + point.p3x + " " + point.p3y + " Q  " + control.x +
                             " " + control.y +
                             ",  " + point.p4x + " " + point.p4y + " Z")
 
-                        rootSvgC1.setAttribute("r", currR)
+                        setAttribute(rootSvgC1, "r", currR)
                     }
 
 
@@ -262,7 +280,7 @@
                     function getPoint(sx, sy, ex, ey, r1, r2) {
                         deltaX = ex - sx
                         deltaY = ey - sy
-                        currentDistance = Math.sqrt(Math.pow((deltaY), 2) + Math.pow((deltaX), 2))
+                        currentDistance = Math.sqrt(mPow((deltaY), 2) + mPow((deltaX), 2))
                         if (currentDistance == 0) return
                         sinAngel = deltaY / currentDistance
                         cosAngel = deltaX / currentDistance
@@ -283,7 +301,7 @@
 
 
                     function getDistance(sx, sy, ex, ey) {
-                        return Math.sqrt(Math.pow((ey - sy), 2) + Math.pow((ex - sx), 2))
+                        return Math.sqrt(mPow((ey - sy), 2) + mPow((ex - sx), 2))
                     }
 
                     function mouseup(e) {
@@ -305,25 +323,27 @@
                         let currentDistance = getDistance(startX, startY, endPointX, endPointY)
 
                         if (currentDistance < maxDistance) {
-                            rootSvgC1.setAttribute("r", radius)
-                            rootSvgPath.style.opacity = 0
-                            rootSvgPath.setAttribute("d", "M 150 150 L150 150 Q  150 150,  150 150 L150 150 Q  150 150,  150 150 Z")
-                            rootSvgC1.style.opacity = 0
+                            setAttribute(rootSvgC1, "r", radius)
+                            setStyle(rootSvgPath, "opacity", 0)
+                            resetSvgPosition(rootSvgPath)
+                            setStyle(rootSvgC1, "opacity", 0)
                             animation(startX, startY, startX + cx - x, startY + cy - y)
                         } else {
                             if (el.bubbleData && typeof el.bubbleData.afterHide === 'function') {
                                 el.bubbleData.afterHide()
                             }
                             rootSvgC2.style.opacity = 0
+                            setStyle(rootSvgC2, "opacity", 0)
+
                             if (binding.value && binding.value.show) {
-                                msg.style.cssText = "opacity:1"
+                                setStyle(msg, "cssText", "opacity:1")
                             } else {
-                                msg.style.cssText = "opacity:0"
+                                setStyle(msg, "cssText", "opacity:0")
                             }
 
-                            tmpMsg.style.display = "none"
-                            rootSvg.style.display = "none"
-                            rootSvgPath.setAttribute("d", "M 150 150 L150 150 Q  150 150,  150 150 L150 150 Q  150 150,  150 150 Z")
+                            setStyle(tmpMsg, "display", "none")
+                            setStyle(rootSvg, "display", "none")
+                            resetSvgPosition(rootSvgPath)
                         }
                     }
 
@@ -334,30 +354,26 @@
                         let minDeltaX = ex - sx
                         let minDeltaY = ey - sy
                         timer = setInterval(function a() {
-                            count = (Math.abs(count) % 2 == 0 ? -1 : 1) * count
+                            count = (mAbs(count) % 2 == 0 ? -1 : 1) * count
                             let currX = sx + minDeltaX / (count * 2)
                             let currY = sy + minDeltaY / (count * 2)
-                            if (Math.abs(count) == 5) {
+                            if (mAbs(count) == 5) {
                                 clearInterval(timer)
                                 timer = null
-
-                                msg.style.cssText = ""
-                                tmpMsg.style.display = "none"
-
-                                clearInterval(timer)
-
-                                rootSvgC2.setAttribute("cx", startX)
-                                rootSvgC1.setAttribute("r", radius)
-                                rootSvgC2.setAttribute("cy", startY)
-                                rootSvg.style.display = "none"
-                                rootSvgC1.style.opacity = 0
+                                setStyle(msg, "cssText", "")
+                                setStyle(tmpMsg, "display", "none")
+                                setStyle(rootSvg, "display", "none")
+                                setStyle(rootSvgC1, "opacity", 0)
+                                setAttribute(rootSvgC1, "r", radius)
+                                setAttribute(rootSvgC2, "cx", startX)
+                                setAttribute(rootSvgC2, "cy", startY)
                                 return
                             } else {
-                                rootSvgC2.setAttribute("cx", currX)
-                                rootSvgC2.setAttribute("cy", currY)
-                                msg.style.transform = "translate(" + (currX - sx) + "px," + (currY - sy) + "px)"
+                                setAttribute(rootSvgC2, "cx", currX)
+                                setAttribute(rootSvgC2, "cy", currY)
+                                setStyle(msg, "transform", "translate(" + (currX - sx) + "px," + (currY - sy) + "px)")
                             }
-                            count = Math.abs(count) + 1
+                            count = mAbs(count) + 1
                         }, 40)
                     }
                 }
